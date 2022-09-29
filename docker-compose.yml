@@ -3,11 +3,13 @@ services:
   app:
     build:
       context: .
+    image: mmanzano86/apptest
     ports: 
       - "5000:5000"
-    container_name: appdev_m
+    #container_name: appdev_m
     restart: "unless-stopped" 
     deploy:
+      replicas: 3
       resources:
         limits:
           cpus: "0.15"
