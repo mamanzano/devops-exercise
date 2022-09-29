@@ -8,4 +8,8 @@ COPY requirement.txt requirement.txt
 
 RUN pip install -r requirement.txt
 
-CMD ["python3","-m","flask","run","--host","0.0.0.0","--port", "5000"]
+EXPOSE 5000
+
+ENTRYPOINT ["python3"]
+CMD [ "app.py" ]
+#CMD ["python3","-m","flask","run","--host","0.0.0.0","--port", "5000"]
