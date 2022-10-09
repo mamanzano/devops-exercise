@@ -20,12 +20,21 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          
+    - name: Docker meta
+      id: docker_meta
+      uses: crazy-max/ghaction-docker-meta@v1
+      with:
+        images: ${{ secrets.DOCKERHUB_USERNAME }}/apptest
+        tag-custom: latest
+        tag-semver: |
+          {{raw}}
     -
         name: Build and push
         id: docker_build
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/apptest:${{ steps.vars.outputs.tag }} , ${{ secrets.DOCKERHUB_USERNAME }}/apptest:latest
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
           
