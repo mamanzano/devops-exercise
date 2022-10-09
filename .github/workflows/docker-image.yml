@@ -2,9 +2,9 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "docker_tags" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "docker_tags" ]
 
 jobs:
 
@@ -13,6 +13,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Generate tags
+        id: docker_tags
+        uses: ${{ secrets.DOCKERHUB_USERNAME }}/apptest/action-docker-tags@v0.1
+        with:
+          registries: |
+            docker.io
+            ghcr.io
+            quay.io
     - uses: actions/checkout@v3
     -
         name: Login to DockerHub
@@ -26,5 +34,5 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/apptest:latest
+          tags: $${{ steps.docker_tags.outputs.tags }}
           
