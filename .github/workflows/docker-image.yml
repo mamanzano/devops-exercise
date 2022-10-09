@@ -13,14 +13,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Generate tags
-        id: docker_tags
-        uses: ${{ secrets.DOCKERHUB_USERNAME }}/apptest/action-docker-tags@v0.1
-        with:
-          registries: |
-            docker.io
-            ghcr.io
-            quay.io
     - uses: actions/checkout@v3
     -
         name: Login to DockerHub
@@ -31,8 +23,9 @@ jobs:
           
     -
         name: Build and push
+        id: docker_build
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: $${{ steps.docker_tags.outputs.tags }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/apptest:${{ steps.vars.outputs.tag }} ${{ secrets.DOCKERHUB_USERNAME }}/apptest:latest
           
