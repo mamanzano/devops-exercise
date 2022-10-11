@@ -36,7 +36,7 @@ jobs:
           push: true
           tag_with_ref: true
           tag_with_sha: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/apptest:${{ github.sha }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/apptest:${{ github.sha }}, ${{ secrets.DOCKERHUB_USERNAME }}/apptest:latest
           labels: ${{ steps.docker_meta.outputs.labels }}
 
           
